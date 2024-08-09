@@ -6633,7 +6633,7 @@ input, select, textarea {
 		@media screen and (max-width: 1280px) {
 
 			.gallery.style1 article {
-				width: 33.33333%;
+				width: 25%;
 			}
 
 				.gallery.style1 article .caption {

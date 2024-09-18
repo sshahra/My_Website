@@ -6442,6 +6442,7 @@ input, select, textarea {
 		position: relative;
 		width: 100%;
 		background-color: transparent;
+		
 	}
 
 		.gallery.style1 input, .gallery.style1 select, .gallery.style1 textarea {
@@ -6550,12 +6551,16 @@ input, select, textarea {
 			-webkit-justify-content: inherit;
 			-ms-justify-content: inherit;
 			justify-content: inherit;
+			gap: 10px 10px;
+			/* round corners in css */
+			
 		}
 
 		.gallery.style1 article {
 			overflow: hidden;
 			position: relative;
 			width: 25%;
+			border-radius: 10px;
 		}
 
 			.gallery.style1 article .image {
@@ -6566,6 +6571,7 @@ input, select, textarea {
 				display: block;
 				width: 100%;
 				border-radius: 0;
+				
 			}
 
 				.gallery.style1 article .image img {
@@ -6634,10 +6640,15 @@ input, select, textarea {
 
 			.gallery.style1 article {
 				width: 25%;
+				
 			}
 
 				.gallery.style1 article .caption {
 					padding: 1rem;
+				}
+
+				.gallery.items.style1 article .caption h1{
+					font-size: 1rem;
 				}
 
 		}
@@ -6650,6 +6661,10 @@ input, select, textarea {
 
 				.gallery.style1 article .caption {
 					padding: 1rem;
+				}
+
+				.gallery.items.style1 article .caption h1{
+					font-size: 1rem;
 				}
 
 		}

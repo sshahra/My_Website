@@ -387,136 +387,127 @@
 		<!-- LinkedIn Popup Script -->
 		<script>
 			// Create and append the CSS for the popup
-			const popupCSS = document.createElement('style');
-			popupCSS.textContent = `
-			  .popup-overlay {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: rgba(0, 0, 0, 0.7);
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				z-index: 1000;
-				opacity: 0;
-				transition: opacity 0.3s ease;
-			  }
-			  
-			  .popup-container {
-				background: white;
-				padding: 20px;
-				border-radius: 10px;
-				position: relative;
-				max-width: 560px;
-				width: 90%;
-				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-			  }
-			  
-			  .popup-close {
-				position: absolute;
-				top: 10px;
-				right: 10px;
-				background: #f44336;
-				color: white;
-				border: none;
-				border-radius: 50%;
-				width: 30px;
-				height: 30px;
-				font-size: 18px;
-				cursor: pointer;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				transition: background 0.2s ease;
-			  }
-			  
-			  .popup-close:hover {
-				background: #d32f2f;
-			  }
-			  
-			  .popup-title {
-				margin-top: 0;
-				margin-bottom: 15px;
-				font-size: 1.5em;
-				color: #333;
-			  }
-			  
-			  .popup-content {
-				display: flex;
-				justify-content: center;
-				width: 100%;
-				overflow: hidden;
-			  }
-			  
-			  .popup-content iframe {
-				max-width: 100%;
-			  }
-			`;
-			document.head.appendChild(popupCSS);
+const popupCSS = document.createElement('style');
+popupCSS.textContent = `
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .popup-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 560px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    // background: #808080;
+    color: white;
+    border: none;
+    border-radius: 10%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s ease;
+  }
+  
+  .popup-close:hover {
+    background: #606060;
+  }
+  
+  .popup-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .popup-content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .popup-content iframe {
+    max-width: 100%;
+  }
+`;
+document.head.appendChild(popupCSS);
 
-			// Create the popup HTML
-			const popupHTML = `
-			  <div class="popup-overlay" id="linkedinPopup">
-				<div class="popup-container">
-				  <button class="popup-close" id="closePopup">×</button>
-				  <h3 class="popup-title">Check out my latest project!</h3>
-				  <div class="popup-content">
-					<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7239347256406032384" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
-				  </div>
-				</div>
-			  </div>
-			`;
+// Create the popup HTML
+const popupHTML = `
+  <div class="popup-overlay" id="linkedinPopup">
+    <div class="popup-container">
+      <button class="popup-close" id="closePopup">×</button>
+      <h3 class="popup-title">Check out my latest project!</h3>
+      <div class="popup-content">
+		<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7239347256406032384?collapsed=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+      </div>
+    </div>
+  </div>
+`;
 
-			// Function to show the popup
-			function showLinkedInPopup() {
-			  // Create popup element
-			  const popupElement = document.createElement('div');
-			  popupElement.innerHTML = popupHTML;
-			  document.body.appendChild(popupElement.firstElementChild);
-			  
-			  // Get the popup overlay
-			  const popup = document.getElementById('linkedinPopup');
-			  
-			  // Add close functionality
-			  document.getElementById('closePopup').addEventListener('click', function() {
-				popup.style.opacity = '0';
-				setTimeout(() => {
-				  popup.remove();
-				}, 300);
-			  });
-			  
-			  // Show popup with animation
-			  setTimeout(() => {
-				popup.style.opacity = '1';
-			  }, 500);
-			  
-			  // Also close when clicking outside the popup
-			  popup.addEventListener('click', function(e) {
-				if (e.target === popup) {
-				  popup.style.opacity = '0';
-				  setTimeout(() => {
-					popup.remove();
-				  }, 300);
-				}
-			  });
-			  
-			  // Store in localStorage that the popup has been shown
-			  localStorage.setItem('linkedinPopupShown', Date.now());
-			}
+// Function to show the popup
+function showLinkedInPopup() {
+  // Create popup element
+  const popupElement = document.createElement('div');
+  popupElement.innerHTML = popupHTML;
+  document.body.appendChild(popupElement.firstElementChild);
+  
+  // Get the popup overlay
+  const popup = document.getElementById('linkedinPopup');
+  
+  // Add close functionality
+  document.getElementById('closePopup').addEventListener('click', function() {
+    popup.style.opacity = '0';
+    setTimeout(() => {
+      popup.remove();
+    }, 300);
+  });
+  
+  // Show popup with animation
+  setTimeout(() => {
+    popup.style.opacity = '1';
+  }, 500);
+  
+  // Also close when clicking outside the popup
+  popup.addEventListener('click', function(e) {
+    if (e.target === popup) {
+      popup.style.opacity = '0';
+      setTimeout(() => {
+        popup.remove();
+      }, 300);
+    }
+  });
+}
 
-			// Show popup when page loads (with a slight delay for better UX)
-			document.addEventListener('DOMContentLoaded', function() {
-			  // Check if we've shown the popup recently (within the last day)
-			  const lastShown = localStorage.getItem('linkedinPopupShown');
-			  const oneDayInMs = 24 * 60 * 60 * 1000;
-			  
-			  if (!lastShown || (Date.now() - lastShown > oneDayInMs)) {
-				// Wait for page to load completely before showing popup
-				setTimeout(showLinkedInPopup, 1500);
-			  }
-			});
+// Show popup when page loads (with a slight delay for better UX)
+document.addEventListener('DOMContentLoaded', function() {
+  // Always show the popup
+  setTimeout(showLinkedInPopup, 1500);
+});
 		</script>
 
 	</body>

@@ -187,11 +187,25 @@
 				<!-- Projects Section -->
 					<section class="wrapper style1 align-center" id="second">
 						<div class="inner">
-							<h1>Projects</h2>
+							<h1>Projects</h1>
 						</div>
 
 						<!-- Gallery -->
 							<div class="gallery style1 small lightbox onscroll-fade-in">
+								<!-- New Project: RC Trailer Jack -->
+								<article>
+									<a href="https://rc-trailer-jack.vercel.app/" class="image rc-project-trigger">
+										<img src="images/gallery/thumbs/IMG_9023.jpg" alt="RC Trailer Jack" />
+									</a>
+									<div class="caption">
+										<h1>RC Trailer Jack</h1>
+										<p>Interactive website for the RC Trailer Jack project, hosted on Vercel and previewed directly inside this portfolio.</p>
+										<ul class="actions fixed">
+											<li><button class="button medium rc-project-trigger" type="button">View</button></li>
+										</ul>
+									</div>
+								</article>
+
 								<!-- New Project: Well Together -->
 								<article>
 									<a href="https://www.welltogether.xyz/" class="image">
@@ -430,6 +444,19 @@
 
 			</div>
 
+			<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+			<div class="site-controls" role="group" aria-label="Display controls">
+				<button class="site-toggle" id="themeToggle" type="button" aria-pressed="false" title="Switch display mode">
+					<span class="fas fa-sun" aria-hidden="true"></span>
+					<span class="visually-hidden">Switch display mode</span>
+				</button>
+				<button class="site-toggle is-active" id="motionToggle" type="button" aria-pressed="true" title="Turn scroll animation off">
+					<span class="fas fa-bolt" aria-hidden="true"></span>
+					<span class="visually-hidden">Toggle scroll animation</span>
+				</button>
+			</div>
+
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
@@ -439,131 +466,311 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
-		<!-- LinkedIn Popup Script -->
+		<!-- Display Controls Script -->
 		<script>
-			// Create and append the CSS for the popup
-const popupCSS = document.createElement('style');
-popupCSS.textContent = `
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .popup-container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    position: relative;
-    max-width: 560px;
-    width: 90%;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .popup-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    // background: #808080;
-    color: white;
-    border: none;
-    border-radius: 10%;
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background 0.2s ease;
-  }
-  
-  .popup-close:hover {
-    background: #666666;
-  }
-  
-  .popup-title {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.5em;
-    color: #333;
-  }
-  
-  .popup-content {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .popup-content iframe {
-    max-width: 100%;
-  }
-`;
-document.head.appendChild(popupCSS);
+			(function() {
+				const body = document.body;
+				const root = document.documentElement;
+				const themeToggle = document.getElementById('themeToggle');
+				const motionToggle = document.getElementById('motionToggle');
+				const progressBar = document.getElementById('scrollProgress');
+				const themeKey = 'portfolio-display-mode';
+				const motionKey = 'portfolio-scroll-animation';
 
-// Create the popup HTML
-const popupHTML = `
-  <div class="popup-overlay" id="linkedinPopup">
-    <div class="popup-container">
-      <button class="popup-close" id="closePopup">×</button>
-      <h1 class="popup-title">Check out my latest project!</h3>
-      <div class="popup-content">
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/veNPph0JaXU?si=8ECXTMzEzSsasdlT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-		</div>
-      </div>
-    </div>
-  </div>
-`;
+				if (!themeToggle || !motionToggle || !progressBar) {
+					return;
+				}
 
-// Function to show the popup
-function showLinkedInPopup() {
-  // Create popup element
-  const popupElement = document.createElement('div');
-  popupElement.innerHTML = popupHTML;
-  document.body.appendChild(popupElement.firstElementChild);
-  
-  // Get the popup overlay
-  const popup = document.getElementById('linkedinPopup');
-  
-  // Add close functionality
-  document.getElementById('closePopup').addEventListener('click', function() {
-    popup.style.opacity = '0';
-    setTimeout(() => {
-      popup.remove();
-    }, 300);
-  });
-  
-  // Show popup with animation
-  setTimeout(() => {
-    popup.style.opacity = '1';
-  }, 500);
-  
-  // Also close when clicking outside the popup
-  popup.addEventListener('click', function(e) {
-    if (e.target === popup) {
-      popup.style.opacity = '0';
-      setTimeout(() => {
-        popup.remove();
-      }, 300);
-    }
-  });
-}
+				function getStoredValue(key, fallback) {
+					try {
+						return localStorage.getItem(key) || fallback;
+					} catch (error) {
+						return fallback;
+					}
+				}
 
-// Show popup when page loads (with a slight delay for better UX)
-document.addEventListener('DOMContentLoaded', function() {
-  // Always show the popup
-  setTimeout(showLinkedInPopup, 1500);
-});
+				function setStoredValue(key, value) {
+					try {
+						localStorage.setItem(key, value);
+					} catch (error) {
+						return;
+					}
+				}
+
+				function updateScrollProgress() {
+					const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+					const progress = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+
+					progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+				}
+
+				function applyTheme(mode) {
+					const isDark = mode === 'dark';
+					const icon = themeToggle.querySelector('.fas');
+
+					body.classList.toggle('theme-dark', isDark);
+					body.classList.toggle('theme-light', !isDark);
+					themeToggle.classList.toggle('is-active', isDark);
+					themeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+					themeToggle.setAttribute('title', isDark ? 'Switch to bright mode' : 'Switch to dark mode');
+
+					if (icon) {
+						icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+					}
+				}
+
+				function applyMotion(mode) {
+					const isOn = mode !== 'off';
+					const icon = motionToggle.querySelector('.fas');
+
+					body.classList.toggle('scroll-effects-on', isOn);
+					body.classList.toggle('scroll-effects-off', !isOn);
+					root.classList.toggle('scroll-effects-on', isOn);
+					root.classList.toggle('scroll-effects-off', !isOn);
+					motionToggle.classList.toggle('is-active', isOn);
+					motionToggle.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+					motionToggle.setAttribute('title', isOn ? 'Turn scroll animation off' : 'Turn scroll animation on');
+
+					if (icon) {
+						icon.className = isOn ? 'fas fa-bolt' : 'fas fa-pause';
+					}
+
+					if (!isOn) {
+						document.querySelectorAll('.is-inactive').forEach(function(element) {
+							element.classList.remove('is-inactive');
+						});
+					} else {
+						window.dispatchEvent(new Event('scroll'));
+					}
+
+					updateScrollProgress();
+				}
+
+				themeToggle.addEventListener('click', function() {
+					const nextMode = body.classList.contains('theme-dark') ? 'light' : 'dark';
+
+					applyTheme(nextMode);
+					setStoredValue(themeKey, nextMode);
+				});
+
+				motionToggle.addEventListener('click', function() {
+					const nextMode = body.classList.contains('scroll-effects-off') ? 'on' : 'off';
+
+					applyMotion(nextMode);
+					setStoredValue(motionKey, nextMode);
+				});
+
+				document.addEventListener('click', function(event) {
+					const link = event.target.closest('a.smooth-scroll, a.smooth-scroll-middle');
+
+					if (!link || !body.classList.contains('scroll-effects-off')) {
+						return;
+					}
+
+					const href = link.getAttribute('href');
+
+					if (!href || href.charAt(0) !== '#') {
+						return;
+					}
+
+					const target = document.getElementById(href.slice(1));
+
+					if (!target) {
+						return;
+					}
+
+					event.preventDefault();
+					event.stopImmediatePropagation();
+					target.scrollIntoView({
+						behavior: 'auto',
+						block: link.classList.contains('smooth-scroll-middle') ? 'center' : 'start'
+					});
+				}, true);
+
+				window.addEventListener('scroll', updateScrollProgress, { passive: true });
+				window.addEventListener('resize', updateScrollProgress);
+
+				applyTheme(getStoredValue(themeKey, 'light'));
+				applyMotion(getStoredValue(motionKey, 'on'));
+				updateScrollProgress();
+			})();
+		</script>
+
+		<!-- Latest Project Popup Script -->
+		<script>
+			const latestProjectUrl = 'https://rc-trailer-jack.vercel.app/';
+
+			const popupCSS = document.createElement('style');
+			popupCSS.textContent = `
+				.popup-overlay {
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(0, 0, 0, 0.7);
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					z-index: 1000;
+					opacity: 0;
+					padding: 1rem;
+					transition: opacity 0.3s ease;
+				}
+
+				.popup-container {
+					background: #fff;
+					padding: 1.25rem;
+					border-radius: 10px;
+					position: relative;
+					max-width: 1100px;
+					width: 100%;
+					max-height: 90vh;
+					box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+				}
+
+				.popup-close {
+					position: absolute;
+					top: 0.75rem;
+					right: 0.75rem;
+					background: #333;
+					color: #fff;
+					border: none;
+					border-radius: 4px;
+					width: 2rem;
+					height: 2rem;
+					font-size: 1.25rem;
+					line-height: 1;
+					cursor: pointer;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					transition: background 0.2s ease;
+				}
+
+				.popup-close:hover {
+					background: #666;
+				}
+
+				.popup-title {
+					margin: 0 2.5rem 1rem 0;
+					font-size: 1.5em;
+					color: #333;
+				}
+
+				.popup-content {
+					display: flex;
+					justify-content: center;
+					width: 100%;
+					overflow: hidden;
+				}
+
+				.popup-content iframe {
+					width: 100%;
+					height: min(75vh, 720px);
+					border: 0;
+					border-radius: 6px;
+					background: #fff;
+				}
+
+				@media screen and (max-width: 736px) {
+					.popup-overlay {
+						padding: 0.5rem;
+					}
+
+					.popup-container {
+						padding: 1rem;
+					}
+
+					.popup-title {
+						font-size: 1.1em;
+					}
+
+					.popup-content iframe {
+						height: 72vh;
+					}
+				}
+			`;
+			document.head.appendChild(popupCSS);
+
+			const popupHTML = `
+				<div class="popup-overlay" id="projectPopup" role="dialog" aria-modal="true" aria-labelledby="projectPopupTitle">
+					<div class="popup-container">
+						<button class="popup-close" id="closeProjectPopup" type="button" aria-label="Close project preview">&times;</button>
+						<h1 class="popup-title" id="projectPopupTitle">Check out my latest project!</h1>
+						<div class="popup-content">
+							<iframe src="${latestProjectUrl}" title="RC Trailer Jack project preview" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; clipboard-write"></iframe>
+						</div>
+					</div>
+				</div>
+			`;
+
+			function closeProjectPopup(popup) {
+				const iframe = popup.querySelector('iframe');
+
+				if (popup.closeOnEscape) {
+					document.removeEventListener('keydown', popup.closeOnEscape);
+				}
+
+				if (iframe) {
+					iframe.src = 'about:blank';
+				}
+
+				document.body.style.overflow = '';
+				popup.style.opacity = '0';
+
+				setTimeout(() => {
+					popup.remove();
+				}, 300);
+			}
+
+			function showProjectPopup() {
+				if (document.getElementById('projectPopup')) {
+					return;
+				}
+
+				const popupElement = document.createElement('div');
+				popupElement.innerHTML = popupHTML;
+				document.body.appendChild(popupElement.firstElementChild);
+
+				const popup = document.getElementById('projectPopup');
+				const closeButton = document.getElementById('closeProjectPopup');
+
+				document.body.style.overflow = 'hidden';
+
+				popup.closeOnEscape = function(event) {
+					if (event.key === 'Escape') {
+						closeProjectPopup(popup);
+					}
+				};
+
+				closeButton.addEventListener('click', function() {
+					closeProjectPopup(popup);
+				});
+
+				document.addEventListener('keydown', popup.closeOnEscape);
+
+				setTimeout(() => {
+					popup.style.opacity = '1';
+				}, 50);
+
+				popup.addEventListener('click', function(event) {
+					if (event.target === popup) {
+						closeProjectPopup(popup);
+					}
+				});
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				setTimeout(showProjectPopup, 1500);
+
+				document.querySelectorAll('.rc-project-trigger').forEach(function(trigger) {
+					trigger.addEventListener('click', function(event) {
+						event.preventDefault();
+						showProjectPopup();
+					});
+				});
+			});
 		</script>
 
 	</body>
